@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+import pexpect
+import sys
+import getpass
+
+apg_command='apg -M SNCL -a 0 -m 9 -l -t'
+done = False
+while not done:
+    print "Working..."
+    apg_output=pexpect.run( apg_command )
+    lines=apg_output.strip().split( "\n" )
+    line_number=1
+    for line in lines:
+        print( "%1d: %s" % (line_number,line) )
+        line_number += 1
+    try:
+        selection = input( "Which password > " )
+        done = True
+    except SyntaxError:
+        done = False
+    except EOFError:
+        done = True
+        sys.exit( 0 )
+
+if selection < 1 or selection > len(lines):
+    sys.exit( 1 )
+selection -= 1 # people are not zero-based
+
+for i in range(0,5):
+    try:
+        s = getpass.getpass()
+        #print s
+        if s == lines[selection][:9]:
+            print "correct"
+        else:
+            print "wrong"
+            #print s, " is not ", lines[selection][:9]
+    except EOFError:
+        print
+        sys.exit( 0 )
