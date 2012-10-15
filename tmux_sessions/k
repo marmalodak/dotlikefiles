@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PROGRAM=init
+
+function f
+{
+    "programname=$1"
+    nl='
+'
+    pids=$(IFS="$nl"; for line in $(ps h -C "$programname" -O ppid); do exho $line | awk '{print $2}'; done )
+}
+
+
+
+#ps h -C vim -O ppid | for i in $(read a); do echo "$i"; done
+
+#IFS='
+#'; for line in $(ps h -C bash -O ppid); do echo $line | awk '{print $2};' ; done
+#

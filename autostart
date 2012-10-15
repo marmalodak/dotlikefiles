@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# create a black 32x32 png 
+convert -size 32x32 canvas:black -draw 'rectangle 0,0,31,31' /tmp/black.png
+# set that black png to the background
+display -dispose Background -window root /tmp/black.png
+
+nohup ~/bin/padsetup &
+
+~/tmux_sessions/konsolesetup &
+
+sleep 10 # need time for konsole to finish
+google-chrome > /tmp/chrome.out 2>&1 &
+
+sleep 120
+pavucontrol > /tmp/pavucontrol.out 2>&1 &
+#paman > /tmp/paman.out 2>&1 &
+/usr/bin/xfce4-mixer > /tmp/xfce4-mixer.out 2>&1 &
+
+( sleep 60; nohup skype > /tmp/skype.out 2>&1 & ) &
+( sleep 120; readbooks  ) &
+( sleep 300; nohup calibre > /tmp/calibre.out 2>&1 & ) &
+
+# freemind & ## starts the java JVM
+# inkscape &
+
+( sleep 360; nohup virtualbox --fullscreen --startvm osx > /tmp/virtualbox.$USER.out 2>&1 &)
+( sleep 600; yum check-update > /tmp/yum.check-update.out 2>&1 )
+( sleep 600; nohup xscreensaver > /tmp/xscreensaver.out 2>&1 &)
+
+nohup gkrellm > /tmp/gkrellm.out 2>&1  &
+
+#amarok &
+#banshee &
+#exaile &
+#rhythmbox &
+#clementine &

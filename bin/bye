@@ -1,0 +1,41 @@
+#!/bin/bash
+
+source ~/bin/functions
+
+# quit all vim sessions?
+
+vims=$(ps h -C vim -O pid | awk '{print $2}')
+
+# find all the vim sessions and then find their parent's pids until you get to tmux and send then :wd strings
+# this method fails because a tmux can have panes which each run vim and the :wq has to be sent to thr right pane
+# look up tmux list-panes...
+for p in $vims; do 
+    tmuxes=""
+    echo "p=$p"; 
+    parent=$(ppid_get $p)
+    parent_name=$(processname_get "$parent" )
+    if [ $parent_name == "tmux"]; then
+        tmuxes="$tmuxes $parent"
+    elif
+    fi
+    echo "parent=$parent :: name=$parent_name"
+done
+
+
+exit 0 # forget all that crap below
+NL='
+';
+vims=$(IFS='
+'; for i in $(IFS='
+'; ps h -C vim -O pid); do echo "$i" | awk '{print $2}'; done)
+
+echo "vims=$vims"
+echo break
+
+n=0;
+IFS=$(echo -e "\n")
+x=$(for i in $(ps h -C vim -O pid); do echo "$i" | awk '{print $2}'; done)
+
+
+n=0;
+for i in "$x"; do echo -n "n=$n :: "; echo i="$i"; n=$(($n+1)); done

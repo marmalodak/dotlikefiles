@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#source ~/bin/functions
+
+#tmux start-server
+for i in ~/tmux_sessions/*.session; do echo $i; "$i"; done
+
+nohup konsole --hold --profile Shell --tabs-from-file ~/tmux_sessions/work_console.tabs > /tmp/konsole.out 2>&1
+status=$?
+echo "konsole returned with status $status"
+#konsole --profile Shell --tabs-from-file ~/sessions_tmux/chat_console.tabs
+
+for i in $(pidof tmux); do for j in $(ps --ppid $i -o pid h); do kill -s SIGWINCH $j; done;  done

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+watchedfile="$1"
+watchedfile_modtime=$(date -r "$watchedfile")
+w="$watchedfile_modtime"
+while ((1)) ; do
+    clear
+    cat "${watchedfile}" | ccze --mode ansi
+    #sleep 1
+    #w=$(date -r "${watchedfile}")
+    while [[ "$w" == "$watchedfile_modtime"  ]] ; do 
+        sleep 1
+        w=$(date -r "${watchedfile}")
+    done;
+    watchedfile_modtime="$w"
+done;

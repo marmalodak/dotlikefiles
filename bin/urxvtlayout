@@ -1,0 +1,23 @@
+#!/bin/bash
+
+source ~/bin/functions
+
+urxvt_window_id=$1
+window_id=$WindowName2WindowID "$(urxvt_window_id)"
+
+# maximize it
+xdotool windowsize --sync --window $window_id 100% 100%
+# first tab should be tmux session on mediapc
+xdotool key --window $window_id  Shift+Control+DownArrow t m u x space a t t a c h space minus t space m a i l underscore m e d i a p c Return
+# 2th tab urxvt/tmux setup
+xdotool key --window $window_id  Shift+Control+DownArrow t m u x space a t t a c h space minus t space m e t a  Return
+# 3nd tab should be class
+xdotool key --window $window_id  Shift+Control+DownArrow t m u x space a t t a c h space minus t space e m b e d d e d underscore c l a s s Return
+# 4th tab club web site
+xdotool key --window $window_id  Shift+Control+DownArrow t m u x space a t t a c h space minus t space c l u b w e b s i t e Return
+# 5th tab snap1 web app
+xdotool key --window $window_id  Shift+Control+DownArrow t m u x space a t t a c h space minus t space s n a p 1 Return
+# 6th tab snap1 web app
+xdotool key --window $window_id  Shift+Control+DownArrow t m u x space a t t a c h space minus t space w i n d o w i n g Return
+# 7th tab snap1 web app
+xdotool key --window $window_id  Shift+Control+DownArrow t m u x space a t t a c h space minus t space b o r i n g Return

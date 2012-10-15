@@ -1,0 +1,10 @@
+#!/usr/bin/python
+
+import glob
+import os
+
+default_path='~/readinglist'
+
+p = os.path.join( os.path.expanduser( os.path.expandvars( default_path ) ), '*' )
+for i in glob.glob( p ):
+    os.system( "nohup okular '%s' > /tmp/readbooks.out 2>&1 &" % (i) )

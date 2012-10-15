@@ -1,0 +1,22 @@
+#!/bin/bash
+
+SESSION_NAME="boring"
+if [[ ! -z "$TMUX" ]] || [[ ! -z "$TMUX_PANE" ]]; then
+    echo "Already inside a tmux session, do not know what to do"
+    exit 1
+fi
+ps -C tmux > /dev/null 2>&1 # is tmux running?
+if [ ! $? ]; then
+    exit 1
+fi
+tmux -q has-session -t "$SESSION_NAME"
+if [ ! $? ]; then
+    exit 0
+fi
+NEWCWD=~/projects
+( cd "$NEWCWD"; tmux new-session -d -s "$SESSION_NAME" )
+#( cd "$NEWCWD"; tmux new-window -t "$SESSION_NAME" )
+tmux send-keys -t "$SESSION_NAME" 'less /usr/share/doc/cryptsetup-luks-1.3.1/FAQ' Enter
+tmux send-keys -t "$SESSION_NAME" 'echo look up http://ask.fedoraproject.org/question/909/enabling-trimdiscard-on-f16-using-lvm-on-luks' Enter
+( cd "$NEWCWD"; tmux split -h -t "$SESSION_NAME" )
+tmux send-keys -t "$SESSION_NAME" 'rpm -qil fuse-encfs | less' Enter

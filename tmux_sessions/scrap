@@ -1,0 +1,4 @@
+ps -C tmux > /dev/null 2>&1 # is tmux running?
+if [ $? ]; then
+    exit 1
+fi

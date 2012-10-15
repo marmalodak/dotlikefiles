@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+echo "$(date): padsetup starting up" > /tmp/padsetup.$USER.out
+while [[ 1 ]]; do
+    if [[ $(synclient -l | grep TapButton1 | awk '{print $3}') -eq 0 ]]; then
+        synclient TapButton1=1
+        synclient TapButton2=2
+        synclient TapButton3=3
+        synclient MaxSpeed=4
+        synclient AccelFactor=0.05
+        echo "$(date): synclient settings set" >> /tmp/padsetup.$USER.out
+    fi
+    if [[ $(synclient -l | grep TapButton1 | awk '{print $3}') -eq 0 ]]; then
+        echo "$(date): synclient settings not right" >> /tmp/padsetup.$USER.out
+        echo "$(date): $(synclient -l | grep TapButton1)" >> /tmp/padsetup.$USER.out
+        sleep 10
+    else
+        echo "$(date): synclient settings look right; sleeping..." >> /tmp/padsetup.$USER.out
+        sleep 60
+    fi
+done

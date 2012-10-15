@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#logfile=$(mktemp)
+logfile=/tmp/"$1".logfile
+python "$1" > "$logfile" 2>&1

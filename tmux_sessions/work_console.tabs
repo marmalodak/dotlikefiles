@@ -1,0 +1,14 @@
+title: email;;                   command: ssh -t mediapc tmux attach -t email
+title: LinuxSystemsProgramming;; command: tmux attach -t LinuxSystemsProgramming
+title: djang-tutorial-1;;        command: tmux attach -t django-tutorial-1
+title: meta;;                    command: tmux attach -t meta
+title: wine;;                    command: tmux attach -t wine
+title: superag;;                 command: tmux attach -t superag
+title: clubwebsite;;             command: tmux attach -t clubwebsite
+title: flaskr;;                  command: tmux attach -t flaskr_tutorial
+title: snap1;;                   command: tmux attach -t snap1
+title: builderator;;             command: tmux attach -t builderator
+title: windowing;;               command: tmux attach -t windowing
+title: boring;;                  command: tmux attach -t boring
+title: xscreensaver;;            command: tmux attach -t xscreensaver
+title: glug;;                    command: tmux attach -t glug

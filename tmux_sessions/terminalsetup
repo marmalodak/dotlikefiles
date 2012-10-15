@@ -1,0 +1,23 @@
+#!/bin/bash
+
+source ~/bin/functions
+
+for i in ~/tmux_sessions/*.session; do echo $i; "$i"; done
+
+nohup Terminal --maximize \
+          -T 'email'                         -e 'ssh -t mediapc tmux attach -t email'          \
+    --tab -T 'LinuxSystemsProgramming'       -e 'tmux attach -t LinuxSystemsProgramming'       \
+    --tab -T 'django-tutorial-1'             -e 'tmux attach -t django-tutorial-1'             \
+    --tab -T 'meta'                          -e 'tmux attach -t meta'                          \
+    --tab -T 'wine'                          -e 'tmux attach -t wine'                          \
+    --tab -T 'superag'                       -e 'tmux attach -t superag'                       \
+    --tab -T 'clubwebsite'                   -e 'tmux attach -t clubwebsite'                   \
+    --tab -T 'flaskr'                        -e 'tmux attach -t flaskr_tutorial'               \
+    --tab -T 'snap1'                         -e 'tmux attach -t snap1'                         \
+    --tab -T 'builderator'                   -e 'tmux attach -t builderator'                   \
+    --tab -T 'windowing'                     -e 'tmux attach -t windowing'                     \
+    --tab -T 'boring'                        -e 'tmux attach -t boring'                        \
+    --tab -T 'xscreensaver'                  -e 'tmux attach -t xscreensaver'                  \
+    --tab -T 'glug'                          -e 'tmux attach -t glug'                          > /tmp/terminal.$USER.out 2>&1 &
+
+for i in $(pidof tmux); do for j in $(ps --ppid $i -o pid h); do kill -s SIGWINCH $j; done;  done

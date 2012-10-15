@@ -1,0 +1,23 @@
+#!/bin/bash
+
+SESSION_NAME='glug'
+if [[ ! -z "$TMUX" ]] || [[ ! -z "$TMUX_PANE" ]]; then
+    echo "Already inside a tmux session, do not know what to do"
+    exit 1
+fi
+ps -C tmux > /dev/null 2>&1 # is tmux running?
+if [ ! $? ]; then
+    exit 1
+fi
+tmux -q has-session -t "$SESSION_NAME"
+if [ ! $? ]; then
+    exit 0
+fi
+NEWCWD=~/projects/glugplane
+( cd "$NEWCWD"; tmux new-session -d -s "$SESSION_NAME" )
+#( cd "$NEWCWD"; tmux new-window -t "$SESSION_NAME" )
+tmux send-keys -t "$SESSION_NAME" 'vim myshapes.c' Enter
+( cd "$NEWCWD"; tmux split -h -t "$SESSION_NAME" )
+tmux send-keys -t "$SESSION_NAME" 'vim glugplane.c' Enter
+( cd "$NEWCWD"; tmux split -h -t "$SESSION_NAME" )
+tmux send-keys -t "$SESSION_NAME" 'vim Makefile' Enter

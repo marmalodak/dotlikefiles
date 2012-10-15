@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#logfile=$(mktemp)
+logfile=/tmp/"$1".psql.logfile
+echo $0 > $logfile
+echo $1 >> $logfile
+psql --file="$1" > "$logfile" 2>&1
