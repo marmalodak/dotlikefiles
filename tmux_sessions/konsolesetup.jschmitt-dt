@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo '===========================' >> /tmp/konsolesetup.out
+echo $(date) >> /tmp/konsolesetup.out
+
+source ~/lib/functions
+
+# start my tmux sessions
+for i in ~/tmux_sessions/*.session; do "$i" ; done
+
+konsole --workdir '~' -e 'bash' > /tmp/konsole.$USER.out 2>&1
+sleep 4
+window_id=
+while [[ -z $window_id ]]; do
+    window_id=$(WindowName2WindowID "Konsole")
+    echo window_id=$window_id >> /tmp/konsolesetup.out
+done
+
+# activation and sizing and focusing seems to be unnecesary if we sleep for a few seconds, long enough for things to settle
+# this seems to work better if it is the topmost window
+xdotool windowactivate $window_id
+xdotool windowfocus $window_id
+
+# maximize it
+#xdotool windowsize $window_id 100% 100% # this seems to get the size wrong, wut?  # what does --sync actually do except for mess up the order in which things are run??
+#xdotool key --window $window_id Alt+space x # wut?
+
+xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space b l o g  Return
+xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space i p m i  Return
+xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space d j a n g o 1  Return
+#xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space e n v V e r i f y Return
+#xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space g c o v Return
+xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space m e t a Return
