@@ -52,3 +52,70 @@ function tmux_up0() # this is useless because we're going to launch tmux
     fi
     return 0
 }
+
+function strip() # http://stackoverflow.com/a/3352015
+{
+    var="$1"
+    var="${var#"${var%%[![:space:]]*}"}"   # remove leading whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"   # remove trailing whitespace characters
+    echo "$var"
+}
+
+function ppid_get()
+{
+    local pid=$(strip "$1")
+    ppid=$(ps h --pid "$pid" -O ppid | awk '{print $2}')
+    echo $(strip "$ppid")
+}
+
+function processname_get()
+{
+    local pid=$(strip "$1" )
+    process_name=$(ps h --pid "$pid" -O comm | awk '{print $2}')
+    echo $(strip "$process_name")
+}
+
+function is_pid_command() # is pid's name command?
+{
+    pid="$1"
+    command="$2"
+    if [ $(processname_get "$pid" ) -eq "$2" ]; then
+        echo 1
+        return 0
+    fi
+    echo 0
+    return 0
+}
+
+
+function tmux_parent_pid_get()
+{
+    pid=$(strip "$1")
+    if [ $(processname_get $(ppid_get $pid)) -eq "tmux" ]; then
+        echo 1
+        exit 0
+    fi
+    echo 0
+    exit 0
+}
+
+# turn a window title into a window ID
+function WindowName2WindowID()
+{
+    local WindowID
+
+    WindowID=$(xwininfo -name "$1" | grep '^xwininfo: Window id:')
+    WindowID=$(echo ${WindowID//'xwininfo: Window id:'} | cut -d ' ' -f 1)
+    echo $WindowID
+    #return $WindowID
+}
+
+# http://www.semicomplete.com/projects/xdotool/
+# Example: focus the firefox url bar
+# WID=`xdotool search "Mozilla Firefox" | head -1`
+# xdotool windowactivate --sync $WID
+# xdotool key --clearmodifiers ctrl+l
+#
+#
+# # As of version 2.20100623, you can do this simpler version of above:
+# xdotool search "Mozilla Firefox" windowactivate --sync key --clearmodifiers ctrl+l

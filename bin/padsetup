@@ -1,21 +1,37 @@
 #!/usr/bin/env bash
 
+TIMER1=60
+TIMER2=60
+# I wonder if this keeps the touchpad awake when it could be sleeping?
 echo "$(date): padsetup starting up" > /tmp/padsetup.$USER.out
 while [[ 1 ]]; do
-    if [[ $(synclient -l | grep TapButton1 | awk '{print $3}') -eq 0 ]]; then
-        synclient TapButton1=1
-        synclient TapButton2=2
-        synclient TapButton3=3
-        synclient MaxSpeed=4
-        synclient AccelFactor=0.05
-        echo "$(date): synclient settings set" >> /tmp/padsetup.$USER.out
-    fi
-    if [[ $(synclient -l | grep TapButton1 | awk '{print $3}') -eq 0 ]]; then
-        echo "$(date): synclient settings not right" >> /tmp/padsetup.$USER.out
-        echo "$(date): $(synclient -l | grep TapButton1)" >> /tmp/padsetup.$USER.out
-        sleep 10
+    # if the screensaver says we're idle than don't do anything and give the touchpad time to sleep
+    xscreensaver-command -time | grep -q 'non-blanked'
+    if [[ $? -eq 0 ]]; then
+        if [[ $(synclient -l | grep TapButton1 | awk '{print $3}') -eq 0 ]]; then
+            synclient TapButton1=1
+            synclient TapButton2=2
+            synclient TapButton3=3
+            synclient MaxSpeed=8
+            synclient AccelFactor=0.1
+            echo "$(date): synclient settings set" >> /tmp/padsetup.$USER.out
+            TIMER1=60
+            TIMER2=60
+        fi
+        if [[ $(synclient -l | grep TapButton1 | awk '{print $3}') -eq 0 ]]; then
+            echo "$(date): synclient settings not right" >> /tmp/padsetup.$USER.out
+            echo "$(date): $(synclient -l | grep TapButton1)" >> /tmp/padsetup.$USER.out
+            sleep 10
+            TIMER1=60
+            TIMER2=60
+        else
+            echo "$(date): synclient settings look right; sleeping..." >> /tmp/padsetup.$USER.out
+            sleep $TIMER1
+            TIMER1=$((TIMER1*2))
+        fi
     else
-        echo "$(date): synclient settings look right; sleeping..." >> /tmp/padsetup.$USER.out
-        sleep 60
+        echo "$(date): sleeping because screensaver says we're idle: $(xscreensaver-command -time)" >> /tmp/padsetup.$USER.out
+        sleep $TIMER2
+        TIMER2=$((TIMER2*2))
     fi
 done
