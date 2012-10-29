@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+args=
+gcc=
+if [[ ! -z "$1" ]]; then
+    if [[ "$1" == *".c" || "$1" == *".C" || "$1" == *".cpp" || "$1" == *".CPP" ]]; then
+        finished=0
+        while read line; do 
+            #echo "line=$line"
+            if [[ $? -ne 0 ]]; then break; fi
+            echo "$line" | grep -q '// gcc'
+            if [[ $? -eq 0 ]]; then
+                finished=1
+                gcc=${line/\/\/ /}
+                #echo "gcc=$gcc"
+            fi
+            echo "$line" | grep -q '// args='
+            if [[ $? -eq 0 ]]; then
+                finished=1
+                args=${line/\/\/ args=/}
+                #echo "args=$args"
+            fi
+        done < "$1"
+    else
+        echo "Please supply one of .c .cpp .C .CPP file"
+    fi
+    if [[ $finished -ne 1 || -z $gcc ]]; then
+        echo "ERROR: could not find a line that starts with // gcc"
+    else
+        exe="${1%.*}"
+        set +x
+        eval "$gcc $1 -o $exe" && eval "./$exe $args"
+        set +x
+    fi
+fi
