@@ -3,37 +3,130 @@
 echo '===========================' >> /tmp/konsolesetup.out
 echo $(date) >> /tmp/konsolesetup.out
 
-source ~/bin/functions
+source ~/lib/functions
 
-# start my tmux sessions
-for i in ~/bin/sessions/*.session.bash; do "$i" ; done
+SESSIONS=
+for i in ~/tmux_sessions/*.session; do SESSIONS="$SESSIONS $($i)" ; done
+echo "SESSIONS=$SESSIONS"
 
-konsole --workdir '~'
-sleep 1
-window_id=$(WindowName2WindowID "john : bash – Konsole")
-echo window_id=$window_id >> /tmp/konsolesetup.out
-sleep 1
+konsole --workdir '~' -e 'bash' > /tmp/konsole.out & 2>&1 
+#sleep 1
+window_id=
+while [[ -z $window_id ]]; do
+    # what's the funny hyphen symbol? Shell – Konsole
+    window_id=$(WindowName2WindowID "Konsole")
+    echo window_id=$window_id >> /tmp/konsolesetup.out
+done
 
 # activation and sizing and focusing seems to be unnecesary if we sleep for a few seconds, long enough for things to settle
 # this seems to work better if it is the topmost window
-#xdotool windowactivate $window_id
-#xdotool windowfocus $window_id
+xdotool windowactivate $window_id
+xdotool windowfocus $window_id
 
 # maximize it
 #xdotool windowsize $window_id 100% 100% # this seems to get the size wrong, wut?  # what does --sync actually do except for mess up the order in which things are run??
 #xdotool key --window $window_id Alt+space x # wut?
 
+xdotool key --window $window_id  s s h space minus t space m e d i a p c space t m u x space a t t a c h space minus t space e m a i l Return
+for s in $SESSIONS; do
+    #echo "s=$s"
+    s0=$(python -c "print ' '.join([x for x in '$s'])") # spell each session name like t h i s
+    #echo "s0=$s0"
+    xdotool key --window $window_id  Shift+Control+t
+    sleep 1
+    xdotool key --window $window_id  t m u x space a t t a c h space minus t space $s0  Return
+    #sleep 1
+    xdotool key --window $window_id  Control+Alt+s
+    sleep 1
+    xdotool key --window $window_id  Control+Alt+s $s0 Return
+    #sleep 1
+done
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  s s h space minus t space m e d i a p c space t m u x space a t t a c h space minus t space c h a t Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s
+sleep 1
+xdotool key --window $window_id  Control+Alt+s c h a t Return
+
+for i in $(pidof tmux); do kill -s SIGWINCH $i; for j in $(ps --pid $i -o pid h); do kill -s SIGWINCH $j; done; done
+
+exit 0
+
 # First tab should be tmux session on mediapc
 xdotool key --window $window_id  s s h space minus t space m e d i a p c space t m u x space a t t a c h space minus t space e m a i l Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space L i n u x S y s t e m s P r o g r a m m i n g  Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space d j a n g o minus t u t o r i a l minus 1  Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space m e t a  Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space L i n u x S y s t e m s P r o g r a m m i n g  Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s L i n u x S y s t e m s P r o g r a m m i n g Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space d j a n g o minus t u t o r i a l minus 1  Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s d j a n g o 1 Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space m e t a  Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s m e t a  Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
 xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space w i n e  Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space c l u b w e b s i t e Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space s u p e r a g Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space s n a p 1 Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space w i n d o w i n g Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space b o r i n g Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space b u i l d e r a t o r Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space x s c r e e n s a v e r Return
-xdotool key --window $window_id  Shift+Control+t t m u x space a t t a c h space minus t space g l u g Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s w i n e Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space c l u b w e b s i t e Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s c l u b w e b s i t e Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space s u p e r a g Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s s u p e r a g Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space s n a p 1 Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s s n a p 1  Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space w i n d o w i n g Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s w i n d o w i n g Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space b o r i n g Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s b o r i n g Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space b u i l d e r a t o r Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s b u i l d e r a t o r Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space x s c r e e n s a v e r Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s x s c r e e n s a v e r Return
+sleep 1
+xdotool key --window $window_id  Shift+Control+t
+sleep 1
+xdotool key --window $window_id  t m u x space a t t a c h space minus t space g l u g Return
+sleep 1
+xdotool key --window $window_id  Control+Alt+s g l u g Return
+sleep 1
+
+for i in $(pidof tmux); do kill -s SIGWINCH $i; for j in $(ps --pid $i -o pid h); do kill -s SIGWINCH $j; done; done

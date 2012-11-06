@@ -1,22 +1,19 @@
 #!/bin/bash
 
+source ~/lib/functions
+
 SESSION_NAME='wine'
-if [[ ! -z "$TMUX" ]] || [[ ! -z "$TMUX_PANE" ]]; then
-    echo "Already inside a tmux session, do not know what to do"
-    exit 1
-fi
-ps -C tmux > /dev/null 2>&1 # is tmux running?
-if [ ! $? ]; then
-    exit 1
-fi
-tmux -q has-session -t "$SESSION_NAME"
-if [ ! $? ]; then
-    exit 0
-fi
 NEWCWD=~/wineapps
-( cd "$NEWCWD"; tmux new-session -d -s "$SESSION_NAME" )
-#( cd "$NEWCWD"; tmux new-window -t "$SESSION_NAME" )
-tmux send-keys -t "$SESSION_NAME" 'vim buddle' Enter
-#NEWCWD=~/projects/wine/wine-head
-( cd "$NEWCWD"; tmux split -h -t "$SESSION_NAME" )
-tmux send-keys -t "$SESSION_NAME" 'vim blinst' Enter
+
+tmux_session_new "$SESSION_NAME" "$NEWCWD"
+
+if [[ $? -eq 0 ]]; then
+    ( cd "$NEWCWD"; tmux new-session -d -s "$SESSION_NAME" )
+    tmux send-keys -t "$SESSION_NAME" 'vim buddle' Enter
+    ( cd "$NEWCWD"; tmux split -h -t "$SESSION_NAME" )
+    tmux send-keys -t "$SESSION_NAME" 'vim blinst' Enter
+    ( cd "$NEWCWD"; tmux split -v -t "$SESSION_NAME" )
+    tmux send-keys -t "$SESSION_NAME" 'vim buddles.txt' Enter
+fi
+
+echo "$SESSION_NAME"

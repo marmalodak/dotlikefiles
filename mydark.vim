@@ -50,12 +50,12 @@ hi Cursor	guifg=black guibg=yellow ctermfg=black ctermbg=yellow
 hi lCursor	guifg=black guibg=white ctermfg=black ctermbg=white
 
 
-hi Comment	guifg=#80a0ff ctermfg=darkred
-hi Constant	ctermfg=magenta guifg=#ffa0a0 ctermfg=22
+hi Comment	guifg=#80a0ff ctermfg=green
+hi Constant	ctermfg=magenta guifg=#ffa0a0 ctermfg=darkgreen
 hi Special	ctermfg=brown guifg=Orange cterm=none gui=none
 hi Identifier	ctermfg=cyan guifg=#40ffff cterm=none
 hi Statement	ctermfg=darkgreen cterm=none guifg=#ffff60 gui=none
-hi PreProc	ctermfg=magenta guifg=#ff80ff gui=none cterm=none
+hi PreProc	ctermfg=darkgreen guifg=#ff80ff gui=none cterm=none
 hi type		ctermfg=green guifg=#60ff60 gui=none cterm=none
 hi Underlined	cterm=underline term=underline
 hi Ignore	guifg=bg ctermfg=bg

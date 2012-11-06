@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-args=
+args=()
 gcc=
+reset
+clear
 if [[ ! -z "$1" ]]; then
     if [[ "$1" == *".c" || "$1" == *".C" || "$1" == *".cpp" || "$1" == *".CPP" ]]; then
         finished=0
@@ -17,19 +19,24 @@ if [[ ! -z "$1" ]]; then
             echo "$line" | grep -q '// args='
             if [[ $? -eq 0 ]]; then
                 finished=1
-                args=${line/\/\/ args=/}
+                args+=(${line/\/\/ args=/})
                 #echo "args=$args"
             fi
         done < "$1"
     else
         echo "Please supply one of .c .cpp .C .CPP file"
     fi
-    if [[ $finished -ne 1 || -z $gcc ]]; then
+    if [[ -z $gcc ]]; then
         echo "ERROR: could not find a line that starts with // gcc"
     else
         exe="${1%.*}"
-        set +x
-        eval "$gcc $1 -o $exe" && eval "./$exe $args"
-        set +x
+        eval "$gcc $1 -o $exe"
+        if [[ $? -eq 0 ]]; then
+            if [[ -z $args ]]; then
+                eval "./$exe $i"
+            else
+                for i in ${args[@]}; do eval "./$exe $i"; done
+            fi
+        fi
     fi
 fi

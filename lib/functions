@@ -17,26 +17,26 @@ function tmux_inside() # return 1 if we are running within a tmux session alread
     return 0
 }
 
-function tmux_session_up()
+function tmux_has_session()
 {
-    tmux has-session -t "$1" > /tmp/tmux_session_up.$USER.out 2>&1
+    ps -C tmux >> /dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        echo 0
+        exit 0
+    fi
+    tmux has-session -t "$1" > /dev/null 2>&1
     echo $((1-$?))
     exit 0
 }
 
 function tmux_session_new()
 {
-    #echo 'sesion_new()'
-    #echo "'$1'=$1,'$2'=$2"
-    #echo 'sesion_new()'
     status=1
-    #echo "!tmux_inside=" $((! $(tmux_inside) ))
-    #echo "!tmux_session_up=$((! $(tmux_session_up $1) ))"
-    if [[ $((! $(tmux_inside) )) && $((! $(tmux_session_up $1) )) ]]; then
-        ( cd "$2"; tmux new-session -d -s "$1" > /tmp/tmux_session_new.$USER.out 2>&1 )
+    if [[ $((! $(tmux_inside) )) && $((! $(tmux_has_session $1) )) ]]; then
+        ( cd "$2"; tmux new-session -d -s "$1" > /dev/null 2>&1)
         status=$?
     fi
-    echo "$status"
+    #echo "$status"
     return "$status"
 }
 
