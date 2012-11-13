@@ -1,5 +1,14 @@
 #!/bin/bash
 
+function sigwinch()
+{
+    piduser=$(ps --pid $1 -o user h) # do not want to send signals to processes that are not run as $USER
+    #echo "pid=$1 ($piduser) $(ps --pid $1 -o command h)"
+    if [[ -z $1 || $1 -le 1 || "$USER" != "$piduser" ]]; then return 0; fi
+    kill -s SIGWINCH $1
+    for i in $(ps --ppid $1 -o pid h); do sigwinch $i; done
+}
+
 # redirecting tmux does not work unless you set EVENT_NOEPOLL=1
 # http://comments.gmane.org/gmane.comp.terminal-emulators.tmux.user/1958
 # http://sourceforge.net/tracker/index.php?func=detail&aid=3199205&group_id=200378&atid=973262
@@ -33,7 +42,8 @@ function tmux_session_new()
 {
     status=1
     if [[ $((! $(tmux_inside) )) && $((! $(tmux_has_session $1) )) ]]; then
-        ( cd "$2"; tmux new-session -d -s "$1" > /dev/null 2>&1)
+        #( cd "$2"; tmux new-session -d -s "$1" > /tmp/tmux.out 2>&1)
+        ( cd "$2"; tmux -v new-session -d -s "$1" > /tmp/tmux.out 2>&1)
         status=$?
     fi
     #echo "$status"
