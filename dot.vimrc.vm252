@@ -3,9 +3,9 @@ syntax off
 filetype off
 
 " set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim
-set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
 
-call vundle#rc()
+call vundle#begin()
 
 Bundle 'gmarik/vundle'
 Bundle 'majutsushi/tagbar'
@@ -28,46 +28,11 @@ imap kj <Esc>
 imap ;l <Esc>
 imap l; <Esc>
 
-" This might be done better a la badwolf: http://learnvimscriptthehardway.stevelosh.com/chapters/56.html
-" see also  http://stackoverflow.com/a/5702498/1698426:
-" try
-"     colorscheme mayormaynotexist
-"     catch /^Vim\%((\a\+)\)\=:E185/
-"         " deal with it
-"         endtry
-" colorscheme stuff has to be done after vim plugins because some plugins muck with colorscheme
-if &g:background == "dark"
-    colorscheme pablo
-    set nocursorline
-    highlight clear CursorLine
-    highlight CursorLine cterm=none ctermbg=236
-    set cursorline
-else
-    set nocursorline
-    highlight clear CursorLine
-    highlight CursorLine cterm=none ctermbg=255
-    set cursorline
-endif
-
 " syntastic
 let g:syntastic_python_checkers = ['pyflakes']
 let g:syntastic_mode_map        = { 'mode': 'active', 'active_filetypes': [], 'passive_filetypes': [] }
 let g:syntastic_mode            = 'active'
 let g:syntastic_check_on_open   = 1
-
-" colorscheme stuff has to be done after vim plugins because some plugins muck with colorscheme
-if &g:background == "dark"
-    colorscheme pablo
-    set nocursorline
-    highlight clear CursorLine
-    highlight CursorLine cterm=none ctermbg=239
-    set cursorline
-else
-    set nocursorline
-    highlight clear CursorLine
-    highlight CursorLine cterm=none ctermbg=255
-    set cursorline
-endif
 
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
@@ -104,3 +69,26 @@ set novisualbell
 set showmode
 set laststatus=2
 set t_Co=256
+
+" colorscheme stuff has to be done after vim plugins because some plugins muck with colorscheme
+" This might be done better a la badwolf: http://learnvimscriptthehardway.stevelosh.com/chapters/56.html
+" see also  http://stackoverflow.com/a/5702498/1698426:
+" try
+"     colorscheme mayormaynotexist
+"     catch /^Vim\%((\a\+)\)\=:E185/
+"         " deal with it
+"         endtry
+" colorscheme stuff has to be done after vim plugins because some plugins muck with colorscheme
+if &g:background == "dark"
+    " colorscheme pablo
+    colorscheme mydark
+    set nocursorline
+    highlight clear CursorLine
+    highlight CursorLine cterm=none ctermbg=236
+    set cursorline
+else
+    set nocursorline
+    highlight clear CursorLine
+    highlight CursorLine cterm=none ctermbg=255
+    set cursorline
+endif
