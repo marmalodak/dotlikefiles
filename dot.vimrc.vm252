@@ -1,0 +1,106 @@
+set nocompatible
+syntax off
+filetype off
+
+" set rtp+=/usr/lib/python2.7/site-packages/powerline/bindings/vim
+set rtp+=~/.vim/bundle/vundle/
+
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+Bundle 'majutsushi/tagbar'
+Bundle 'scrooloose/syntastic'
+Bundle 'davaidhalter/jedi-vim'
+Bundle 'ervandew/supertab'
+Bundle 'dhruvasagar/vim-table-mode'
+
+syntax on
+filetype on
+filetype plugin on
+filetype plugin indent on
+
+
+nmap <silent> <F3> :NERDTreeToggle<CR>
+nmap <silent> <F8> :TagbarToggle<CR>
+imap ;; <Esc>
+imap jk <Esc>
+imap kj <Esc>
+imap ;l <Esc>
+imap l; <Esc>
+
+" This might be done better a la badwolf: http://learnvimscriptthehardway.stevelosh.com/chapters/56.html
+" see also  http://stackoverflow.com/a/5702498/1698426:
+" try
+"     colorscheme mayormaynotexist
+"     catch /^Vim\%((\a\+)\)\=:E185/
+"         " deal with it
+"         endtry
+" colorscheme stuff has to be done after vim plugins because some plugins muck with colorscheme
+if &g:background == "dark"
+    colorscheme pablo
+    set nocursorline
+    highlight clear CursorLine
+    highlight CursorLine cterm=none ctermbg=236
+    set cursorline
+else
+    set nocursorline
+    highlight clear CursorLine
+    highlight CursorLine cterm=none ctermbg=255
+    set cursorline
+endif
+
+" syntastic
+let g:syntastic_python_checkers = ['pyflakes']
+let g:syntastic_mode_map        = { 'mode': 'active', 'active_filetypes': [], 'passive_filetypes': [] }
+let g:syntastic_mode            = 'active'
+let g:syntastic_check_on_open   = 1
+
+" colorscheme stuff has to be done after vim plugins because some plugins muck with colorscheme
+if &g:background == "dark"
+    colorscheme pablo
+    set nocursorline
+    highlight clear CursorLine
+    highlight CursorLine cterm=none ctermbg=239
+    set cursorline
+else
+    set nocursorline
+    highlight clear CursorLine
+    highlight CursorLine cterm=none ctermbg=255
+    set cursorline
+endif
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+" some plugins over-write my textwidth setting
+autocmd BufRead     * set textwidth=0
+autocmd VimEnter    * set   cursorline
+autocmd VimLeave    * set nocursorline
+autocmd InsertEnter * set nocursorline
+autocmd InsertLeave * set   cursorline
+autocmd BufEnter    * set   cursorline
+autocmd BufLeave    * set nocursorline
+
+set nocompatible
+set showcmd
+set wildmenu
+set incsearch
+set hlsearch
+set textwidth=0
+set wrapmargin=0
+set nowrap
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set smarttab
+set smartindent
+set autoindent
+set noerrorbells
+set novisualbell
+set showmode
+set laststatus=2
+set t_Co=256
