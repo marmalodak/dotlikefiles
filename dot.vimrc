@@ -24,6 +24,10 @@ set expandtab
 set shiftwidth=4
 set softtabstop=4
 set smarttab
+"  smartindent does not work correctly with python
+"  http://stackoverflow.com/a/2064318
+"  http://stackoverflow.com/a/18415867
+set nosmartindent
 
 hi CursorLine   ctermbg=59
   " hi cursorline is there because changing the cursor shape for insert mode doesn't work from the console
