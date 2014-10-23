@@ -102,6 +102,10 @@ set softtabstop=4
 set shiftwidth=4
 set smarttab
 set nowrap
+"  smartindent does not work correctly with python
+"  http://stackoverflow.com/a/2064318
+"  http://stackoverflow.com/a/18415867
+set nosmartindent
 
 set showmode
 

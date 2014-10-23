@@ -62,13 +62,16 @@ set expandtab
 set shiftwidth=4
 set softtabstop=4
 set smarttab
-set smartindent
 set autoindent
 set noerrorbells
 set novisualbell
 set showmode
 set laststatus=2
 set t_Co=256
+"  smartindent does not work correctly with python
+"  http://stackoverflow.com/a/2064318
+"  http://stackoverflow.com/a/18415867
+set nosmartindent
 
 " colorscheme stuff has to be done after vim plugins because some plugins muck with colorscheme
 " This might be done better a la badwolf: http://learnvimscriptthehardway.stevelosh.com/chapters/56.html
