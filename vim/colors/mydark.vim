@@ -1,73 +1,192 @@
-" Vim color file
-" Maintainer:	Bohdan Vlasyuk <bohdan@vstu.edu.ua>
-" Last Change:	2008 Jul 18
+" local syntax file - set colors on a per-machine basis:
+" vim: tw=0 ts=4 sw=4
 
-" darkblue -- for those who prefer dark background
-" [note: looks bit uglier with come terminal palettes,
-" but is fine on default linux console palette.]
-
-set bg=dark
 hi clear
+set background=dark
 if exists("syntax_on")
-	syntax reset
+  syntax reset
 endif
+let g:colors_name = "mycolours"
 
-let colors_name = "mydark"
+" http://stackoverflow.com/a/2211738/1698426
 
-hi clear Cursorline
-hi Cursorline ctermfg=41 ctermbg=235
+let b:Green       =   2
+let b:BrightGreen =  10
+let b:DimGreen    =  22
 
-hi Normal		guifg=#c0c0o0 guibg=#000040						ctermfg=darkgreen ctermbg=black
-" hi ErrorMsg		guifg=#ffffff guibg=#287eff						ctermfg=white ctermbg=lightblue
-hi ErrorMsg		guifg=#ffffff guibg=#287eff						ctermfg=white ctermbg=darkred
-hi Visual		guifg=#8080ff guibg=fg		gui=reverse				ctermbg=234
-" hi Visual		guifg=#8080ff guibg=fg		gui=reverse				ctermfg=lightblue ctermbg=fg cterm=reverse
-hi VisualNOS	guifg=#8080ff guibg=fg		gui=reverse,underline	ctermfg=lightblue ctermbg=fg cterm=reverse,underline
-hi Todo			guifg=#d14a14 guibg=#1248d1						ctermfg=red	ctermbg=darkblue
-hi Search		guifg=#90fff0 guibg=#2050d0						ctermfg=white ctermbg=darkblue cterm=underline term=underline
-hi IncSearch	guifg=#b0ffff guibg=#2050d0							ctermfg=darkblue ctermbg=gray
+let b:Grey        =   7
+let b:BrightGrey  =  15
+let b:DimGrey     = 235
 
-hi SpecialKey		guifg=cyan			ctermfg=darkcyan
-hi Directory		guifg=cyan			ctermfg=cyan
-hi Title			guifg=magenta gui=none ctermfg=magenta cterm=bold
-hi WarningMsg		guifg=red			ctermfg=red
-hi WildMenu			guifg=yellow guibg=black ctermfg=yellow ctermbg=black cterm=none term=none
-hi ModeMsg			guifg=#22cce2		ctermfg=lightblue
-hi MoreMsg			ctermfg=darkgreen	ctermfg=darkgreen
-hi Question			guifg=green gui=none ctermfg=green cterm=none
-hi NonText			guifg=#0030ff		ctermfg=darkblue
+let b:FGDim       = 238
+let b:FG          = 250
+let b:FGBright    =   7
+let b:BGDim       = 235
+let b:BG          =   0
+let b:BGBright    = 117
 
-hi StatusLine	guifg=blue guibg=darkgray gui=none		ctermfg=green ctermbg=gray term=none cterm=none
-hi StatusLineNC	guifg=black guibg=darkgray gui=none		ctermfg=black ctermbg=gray term=none cterm=none
-hi VertSplit	guifg=black guibg=darkgray gui=none		ctermfg=black ctermbg=gray term=none cterm=none
+let b:FGDim       = b:DimGreen
+let b:FG          = b:Green
+let b:FGBright    = b:BrightGreen
+let b:BGDim       = 235
+let b:BG          =   0
+let b:BGBright    = 117
 
-hi Folded	guifg=#808080 guibg=#000040			ctermfg=darkgrey ctermbg=black cterm=bold term=bold
-hi FoldColumn	guifg=#808080 guibg=#000040			ctermfg=darkgrey ctermbg=black cterm=bold term=bold
-hi LineNr	guifg=#90f020			ctermfg=darkgrey cterm=none
+let b:MyDarkScheme =
+    \{
+    \   'Normal':
+    \   {
+    \       'fg': b:FG,
+    \       'bg': b:BG,
+    \       'keywords':
+    \       [
+    \           "Normal",
+    \           "Constant",
+    \           "String",
+    \           "Character",
+    \           "Boolean",
+    \           "Float",
+    \           "Number",
+    \           "Special",
+    \           "Identifier",
+    \           "Keyword",
+    \           "Statement",
+    \           "Conditional",
+    \           "Label",
+    \           "Include",
+    \           "Define",
+    \           "PreCondit",
+    \           "Macro",
+    \           "PreProc",
+    \           "StorageClass",
+    \           "Structure",
+    \           "Typedef",
+    \           "Type",
+    \           "Function",
+    \           "Repeat",
+    \           "Operator",
+    \           "Ignore",
+    \           "Tag",
+    \           "SpecialChar",
+    \           "Delimiter",
+    \           "SpecialComment",
+    \           "Scrollbar",
+    \           "Menu",
+    \           "SpecialKey",
+    \           "Directory",
+    \           "ErrorMsg",
+    \           "Underlined",
+    \           "Exception",
+    \       ]
+    \   },
+    \   'NormalSlightEmphasis':
+    \   {
+    \       'fg': b:FGBright,
+    \       'bg': b:BG,
+    \       'keywords':
+    \       [
+    \           "Comment",
+    \       ]
+    \   },
+    \   'Cursor':
+    \   {
+    \       'fg': b:FG,
+    \       'bg': 234,
+    \       'keywords':
+    \       [
+    \           "Cursor",
+    \           "CursorLine",
+    \           "CursorColumn",
+    \       ]
+    \   },
+    \   'Scary':
+    \   {
+    \       'fg': 'white',
+    \       'bg': 'red',
+    \       'keywords':
+    \       [
+    \           "Error",
+    \           "Debug",
+    \           "Question",
+    \           "SpellBad",
+    \           "SpellCap",
+    \           "SpellLocal",
+    \           "SpellRare",
+    \           "StatusLine",
+    \           "myFixme",
+    \       ]
+    \   },
+    \   'Highlight':
+    \   {
+    \       'fg': 'black',
+    \       'bg': b:FGBright,
+    \       'keywords':
+    \       [
+    \           "WarningMsg",
+    \           "Search",
+    \           "Visual",
+    \           "Todo",
+    \       ]
+    \   },
+    \   'De-emphasize':
+    \   {
+    \       'fg': b:FGDim,
+    \       'bg': b:BG,
+    \       'keywords':
+    \       [
+    \           "LineNr",
+    \           "CursorLineNr",
+    \       ]
+    \   },
+    \   'Emphasize':
+    \   {
+    \       'fg': b:BG,
+    \       'bg': b:FGBright,
+    \       'keywords':
+    \       [
+    \           "MatchParen",
+    \       ]
+    \   },
+    \   'Widget':
+    \   {
+    \       'fg': b:FGDim,
+    \       'bg': b:BGDim,
+    \       'keywords':
+    \       [
+    \           "MoreMsg",
+    \           "ModeMsg",
+    \           "StatusLineNC",
+    \           "Title",
+    \           "TabLine",
+    \           "TabLineFill",
+    \       ]
+    \   },
+    \   'WidgetSel':
+    \   {
+    \       'fg': b:FGBright,
+    \       'bg': b:BG,
+    \       'keywords':
+    \       [
+    \           "TabLineSel",
+    \       ]
+    \   }
+    \}
 
-hi DiffAdd	guibg=darkblue	ctermbg=darkblue term=none cterm=none
-hi DiffChange	guibg=darkmagenta ctermbg=magenta cterm=none
-hi DiffDelete	ctermfg=blue ctermbg=cyan gui=bold guifg=Blue guibg=DarkCyan
-hi DiffText	cterm=bold ctermbg=red gui=bold guibg=Red
+for group in keys(b:MyDarkScheme)
+    for kw in b:MyDarkScheme[group]['keywords']
+        let b:fg = b:MyDarkScheme[group]['fg']
+        let b:bg = b:MyDarkScheme[group]['bg']
+        let cmd = 'hi ' . kw . ' ctermfg=' . b:fg . ' ctermbg=' . b:bg
+        " echo cmd
+        exe 'hi clear ' . kw
+        exe cmd
+    endfor
+endfor
 
-hi Cursor	guifg=black guibg=yellow ctermfg=black ctermbg=yellow
-hi lCursor	guifg=black guibg=white ctermfg=black ctermbg=white
-
-
-hi Comment	guifg=#80a0ff ctermfg=23
-hi Constant	ctermfg=magenta guifg=#ffa0a0 ctermfg=darkgreen
-hi Special	ctermfg=darkgreen guifg=Orange cterm=none gui=none
-hi Identifier	ctermfg=darkgreen  guifg=#40ffff cterm=none
-hi Statement	ctermfg=darkgreen cterm=none guifg=#ffff60 gui=none
-hi PreProc	ctermfg=darkgreen
-" hi PreProc	ctermfg=magenta guifg=#ff80ff gui=none cterm=none
-hi type		ctermfg=darkgreen guifg=#60ff60 gui=none cterm=none
-hi Underlined	cterm=underline term=underline
-hi Ignore	guifg=bg ctermfg=bg
-
-" suggested by tigmoid, 2008 Jul 18
-hi Pmenu guifg=#c0c0c0 guibg=#404080
-hi PmenuSel guifg=#c0c0c0 guibg=#2050d0
-hi PmenuSbar guifg=blue guibg=darkgray
-hi PmenuThumb guifg=#c0c0c0
-
+" Does this have to be on the bottom?
+" http://stackoverflow.com/a/4097541/1698426
+syn match   myTodo   contained   "\<\(TODO\|FIXME\):"
+hi def link myTodo Todo
+" for FIXME and FIXME:
+syn match   myFixme   contained   "\<\(FIXME\):"
+" hi def link myTodo Todo
